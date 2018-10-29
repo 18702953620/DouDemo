@@ -1,13 +1,16 @@
-package com.ch.doudemo;
+package com.ch.doudemo.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.ch.doudemo.R;
 import com.ch.doudemo.base.BaseRecAdapter;
 import com.ch.doudemo.base.BaseRecViewHolder;
 import com.ch.doudemo.widget.MyVideoPlayer;
@@ -17,22 +20,32 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.jzvd.JZVideoPlayer;
 import cn.jzvd.JZVideoPlayerStandard;
 
-public class List2Activity extends AppCompatActivity {
+/**
+ * 翻页2
+ */
+public class Page2Activity extends AppCompatActivity {
 
-    @BindView(R.id.rv_list)
-    RecyclerView rvList;
-    private ArrayList<String> urlList;
+    @BindView(R.id.rv_page2)
+    RecyclerView rvPage2;
+    private List<String> urlList;
     private ListVideoAdapter videoAdapter;
+    private PagerSnapHelper snapHelper;
+    private LinearLayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list2);
+        setContentView(R.layout.activity_page2);
         ButterKnife.bind(this);
+        initView();
+        addListener();
+    }
 
 
+    private void initView() {
         urlList = new ArrayList<>();
         urlList.add("http://image.38.hn/public/attachment/201805/100651/201805181532123423.mp4");
         urlList.add("http://image.38.hn/public/attachment/201803/100651/201803151735198462.mp4");
@@ -43,14 +56,54 @@ public class List2Activity extends AppCompatActivity {
         urlList.add("http://image.38.hn/public/attachment/201803/100651/201803141624378522.mp4");
         urlList.add("http://image.38.hn/public/attachment/201803/100651/201803131546119319.mp4");
 
-        videoAdapter = new ListVideoAdapter(urlList);
-        rvList.setLayoutManager(new LinearLayoutManager(List2Activity.this));
-        rvList.setAdapter(videoAdapter);
 
-        addListener();
+        snapHelper = new PagerSnapHelper();
+        snapHelper.attachToRecyclerView(rvPage2);
+
+
+        videoAdapter = new ListVideoAdapter(urlList);
+        layoutManager = new LinearLayoutManager(Page2Activity.this, LinearLayoutManager.VERTICAL, false);
+        rvPage2.setLayoutManager(layoutManager);
+        rvPage2.setAdapter(videoAdapter);
+
     }
 
     private void addListener() {
+
+        rvPage2.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+
+
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                switch (newState) {
+                    case RecyclerView.SCROLL_STATE_IDLE://停止滚动
+                        View view = snapHelper.findSnapView(layoutManager);
+                        JZVideoPlayer.releaseAllVideos();
+                        RecyclerView.ViewHolder viewHolder = recyclerView.getChildViewHolder(view);
+                        if (viewHolder != null && viewHolder instanceof VideoViewHolder) {
+                            ((VideoViewHolder) viewHolder).mp_video.startVideo();
+                        }
+
+                        break;
+                    case RecyclerView.SCROLL_STATE_DRAGGING://拖动
+                        break;
+                    case RecyclerView.SCROLL_STATE_SETTLING://惯性滑动
+                        break;
+                }
+
+            }
+        });
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        JZVideoPlayer.releaseAllVideos();
     }
 
 
@@ -63,6 +116,8 @@ public class List2Activity extends AppCompatActivity {
 
         @Override
         public void onHolder(VideoViewHolder holder, String bean, int position) {
+            ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
+            layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
             holder.mp_video.setUp(bean, JZVideoPlayerStandard.CURRENT_STATE_NORMAL);
             if (position == 0) {
                 holder.mp_video.startVideo();
@@ -73,7 +128,7 @@ public class List2Activity extends AppCompatActivity {
 
         @Override
         public VideoViewHolder onCreateHolder() {
-            return new VideoViewHolder(getViewByRes(R.layout.item_video));
+            return new VideoViewHolder(getViewByRes(R.layout.item_page2));
 
         }
 

@@ -1,8 +1,9 @@
-package com.ch.doudemo;
+package com.ch.doudemo.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.ch.doudemo.R;
 import com.ch.doudemo.widget.VerticalViewPager;
 import com.ch.doudemo.adapter.VerticalViewPagerAdapter;
 
@@ -12,6 +13,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * 翻页
+ */
 public class PageActivity extends AppCompatActivity {
 
     @BindView(R.id.vvp_back_play)

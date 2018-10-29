@@ -1,4 +1,4 @@
-package com.ch.doudemo;
+package com.ch.doudemo.activity;
 
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -9,10 +9,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.ch.doudemo.R;
 import com.ch.doudemo.base.BaseRecAdapter;
 import com.ch.doudemo.base.BaseRecViewHolder;
 import com.ch.doudemo.widget.MyVideoPlayer;
-import com.tencent.rtmp.ui.TXCloudVideoView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +22,9 @@ import butterknife.ButterKnife;
 import cn.jzvd.JZVideoPlayer;
 import cn.jzvd.JZVideoPlayerStandard;
 
+/**
+ * 视频列表
+ */
 public class ListActivity extends AppCompatActivity {
 
     @BindView(R.id.rv_list)
@@ -82,7 +85,6 @@ public class ListActivity extends AppCompatActivity {
                         break;
                 }
 
-
             }
         });
     }
@@ -105,7 +107,6 @@ public class ListActivity extends AppCompatActivity {
             }
         }
 
-        //有head 故有=
         for (int i = 0; i <= lastVisibleItem; i++) {
             if (recyclerView == null || recyclerView.getChildAt(i) == null) {
                 return;

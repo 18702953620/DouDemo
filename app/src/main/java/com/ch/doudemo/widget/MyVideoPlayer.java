@@ -63,9 +63,14 @@ public class MyVideoPlayer extends JZVideoPlayerStandard {
 
     @Override
     public void setUp(String url, int screen, Object... objects) {
-        HttpProxyCacheServer proxy = MyApp.getProxy(context);
-        String proxyUrl = proxy.getProxyUrl(url);
-        super.setUp(proxyUrl, screen, objects);
+
+        if (url.startsWith("http")) {
+            HttpProxyCacheServer proxy = MyApp.getProxy(context);
+            String proxyUrl = proxy.getProxyUrl(url);
+            super.setUp(proxyUrl, screen, objects);
+        } else {
+            super.setUp(url, screen, objects);
+        }
     }
 
     @Override

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ch.doudemo.MainActivity">
+    tools:context="com.ch.doudemo.activity.MainActivity">
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -21,16 +21,29 @@
                 android:layout_height="wrap_content"
                 android:text="翻页" />
 
+
+            <Button
+                android:id="@+id/btn_page2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="翻页2" />
+
             <Button
                 android:id="@+id/btn_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="列表" />
+
             <Button
-                android:id="@+id/btn_list2"
+                android:id="@+id/btn_record"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="列表2" />
+                android:text="录制" />
+            <Button
+                android:id="@+id/btn_record2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="录制2" />
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

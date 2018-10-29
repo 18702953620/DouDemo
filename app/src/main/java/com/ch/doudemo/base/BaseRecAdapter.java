@@ -89,6 +89,16 @@ public abstract class BaseRecAdapter<T, K extends BaseRecViewHolder> extends Rec
     }
 
     /**
+     * 通过资源res获得view
+     *
+     * @param res
+     * @return
+     */
+    public View getViewByRes(int res, ViewGroup prent) {
+        return LayoutInflater.from(context).inflate(res, prent);
+    }
+
+    /**
      * 绑定事件
      *
      * @param holder
