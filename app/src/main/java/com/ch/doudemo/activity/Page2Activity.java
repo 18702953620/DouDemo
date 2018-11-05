@@ -118,6 +118,7 @@ public class Page2Activity extends AppCompatActivity {
         public void onHolder(VideoViewHolder holder, String bean, int position) {
             ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
             layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+
             holder.mp_video.setUp(bean, JZVideoPlayerStandard.CURRENT_STATE_NORMAL);
             if (position == 0) {
                 holder.mp_video.startVideo();

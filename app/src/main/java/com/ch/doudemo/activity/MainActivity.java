@@ -56,11 +56,11 @@ public class MainActivity extends AppCompatActivity {
                 intent.setClass(MainActivity.this, ListActivity.class);
                 break;
             case R.id.btn_record:
-//                intent.setClass(MainActivity.this, RecordActivity.class);
+                intent.setClass(MainActivity.this, RecordActivity.class);
                 break;
 
             case R.id.btn_record2:
-//                intent.setClass(MainActivity.this, Record2Activity.class);
+                intent.setClass(MainActivity.this, Record2Activity.class);
                 break;
 
             case R.id.btn_page2:
