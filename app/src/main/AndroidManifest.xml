@@ -14,6 +14,7 @@
 
     <uses-feature android:name="android.hardware.Camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.camera2" />
 
     <application
         android:name=".base.MyApp"
@@ -35,7 +36,8 @@
         <activity android:name=".activity.RecordActivity" />
         <activity android:name=".activity.PrepareActivity" />
         <activity android:name=".activity.Record2Activity" />
-        <activity android:name=".activity.Page2Activity"></activity>
+        <activity android:name=".activity.Page2Activity" />
+        <activity android:name=".activity.Record3Activity"></activity>
     </application>
 
 </manifest>
