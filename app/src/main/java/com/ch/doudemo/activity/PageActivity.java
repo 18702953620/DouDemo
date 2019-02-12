@@ -101,13 +101,13 @@ public class PageActivity extends AppCompatActivity {
 
     private void makeData() {
         urlList = new ArrayList<>();
-        urlList.add("http://image.38.hn/public/attachment/201805/100651/201805181532123423.mp4");
-        urlList.add("http://image.38.hn/public/attachment/201803/100651/201803151735198462.mp4");
-        urlList.add("http://image.38.hn/public/attachment/201803/100651/201803150923220770.mp4");
-        urlList.add("http://image.38.hn/public/attachment/201803/100651/201803150922255785.mp4");
-        urlList.add("http://image.38.hn/public/attachment/201803/100651/201803150920130302.mp4");
-        urlList.add("http://image.38.hn/public/attachment/201803/100651/201803141625005241.mp4");
-        urlList.add("http://image.38.hn/public/attachment/201803/100651/201803141624378522.mp4");
-        urlList.add("http://image.38.hn/public/attachment/201803/100651/201803131546119319.mp4");
+        urlList.add("http://chuangfen.oss-cn-hangzhou.aliyuncs.com/public/attachment/201805/100651/201805181532123423.mp4");
+        urlList.add("http://chuangfen.oss-cn-hangzhou.aliyuncs.com/public/attachment/201803/100651/201803151735198462.mp4");
+        urlList.add("http://chuangfen.oss-cn-hangzhou.aliyuncs.com/public/attachment/201803/100651/201803150923220770.mp4");
+        urlList.add("http://chuangfen.oss-cn-hangzhou.aliyuncs.com/public/attachment/201803/100651/201803150922255785.mp4");
+        urlList.add("http://chuangfen.oss-cn-hangzhou.aliyuncs.com/public/attachment/201803/100651/201803150920130302.mp4");
+        urlList.add("http://chuangfen.oss-cn-hangzhou.aliyuncs.com/public/attachment/201803/100651/201803141625005241.mp4");
+        urlList.add("http://chuangfen.oss-cn-hangzhou.aliyuncs.com/public/attachment/201803/100651/201803141624378522.mp4");
+        urlList.add("http://chuangfen.oss-cn-hangzhou.aliyuncs.com/public/attachment/201803/100651/201803131546119319.mp4");
     }
 }

@@ -38,7 +38,7 @@ public class VerticalViewPagerAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return Integer.MAX_VALUE;
+        return urlList.size();
     }
 
     @Override
