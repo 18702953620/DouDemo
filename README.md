@@ -10,3 +10,5 @@
 PagerSnapHelper+RecyclerView 实现仿抖音视频切换
 * [【Android 进阶】仿抖音系列之视频预览和录制（五）](https://www.jianshu.com/p/dc63d77b6761)
 SurfaceView实现相机预览，MediaRecorder实现视频录制及保存
+
+关于下载慢的问题，可以复制下载链接 https://codeload.github.com/18702953620/DouDemo/zip/master 到迅雷等下载工具下载。
