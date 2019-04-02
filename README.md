@@ -1,4 +1,5 @@
 # DouDemo
+[![Badge](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu/#/zh_CN)
 ### 仿抖音部分功能
 * [【Android 进阶】仿抖音系列之翻页上下滑切换视频（一）](https://www.jianshu.com/p/2c71f699c5c4)
 垂直滑动的viewpager 实现仿抖音视频切换
