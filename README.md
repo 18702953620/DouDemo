@@ -14,4 +14,4 @@ SurfaceView实现相机预览，MediaRecorder实现视频录制及保存
 
 
 ### 关于
-* 关于下载慢的问题，可以复制下载链接 https://codeload.github.com/18702953620/DouDemo/zip/master 到迅雷等下载工具下载。
+* 关于下载慢的问题，已去除腾讯播放器代码，项目降低到167kb.
