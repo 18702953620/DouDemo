@@ -19,8 +19,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.jzvd.JZVideoPlayer;
-import cn.jzvd.JZVideoPlayerStandard;
 
 /**
  * 视频列表
@@ -81,7 +79,7 @@ public class ListActivity extends AppCompatActivity {
                         autoPlayVideo(recyclerView);
                         break;
                     case RecyclerView.SCROLL_STATE_SETTLING://惯性滑动
-                        JZVideoPlayer.releaseAllVideos();
+                        MyVideoPlayer.releaseAllVideos();
                         break;
                 }
 
@@ -101,7 +99,7 @@ public class ListActivity extends AppCompatActivity {
                 videoView = recyclerView.getChildAt(0).findViewById(R.id.mp_video);
             }
             if (videoView != null) {
-                if (videoView.currentState == JZVideoPlayer.CURRENT_STATE_NORMAL || videoView.currentState == JZVideoPlayer.CURRENT_STATE_PAUSE) {
+                if (videoView.state == MyVideoPlayer.STATE_NORMAL || videoView.state == MyVideoPlayer.STATE_PAUSE) {
                     videoView.startVideo();
                 }
             }
@@ -124,16 +122,16 @@ public class ListActivity extends AppCompatActivity {
                 int videoHeight = videoView.getHeight();
 
                 if (rect.top <= 100 && rect.bottom >= videoHeight) {
-                    if (videoView.currentState == JZVideoPlayer.CURRENT_STATE_NORMAL || videoView.currentState == JZVideoPlayer.CURRENT_STATE_PAUSE) {
+                    if (videoView.state == MyVideoPlayer.STATE_NORMAL || videoView.state == MyVideoPlayer.STATE_PAUSE) {
                         videoView.startVideo();
                     }
                     return;
                 }
 
-                JZVideoPlayer.releaseAllVideos();
+                MyVideoPlayer.releaseAllVideos();
 
             } else {
-                JZVideoPlayer.releaseAllVideos();
+                MyVideoPlayer.releaseAllVideos();
             }
 
         }
@@ -144,7 +142,7 @@ public class ListActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
-        JZVideoPlayer.releaseAllVideos();
+        MyVideoPlayer.releaseAllVideos();
     }
 
 
@@ -157,7 +155,7 @@ public class ListActivity extends AppCompatActivity {
 
         @Override
         public void onHolder(VideoViewHolder holder, String bean, int position) {
-            holder.mp_video.setUp(bean, JZVideoPlayerStandard.CURRENT_STATE_NORMAL);
+            holder.mp_video.setUp(bean, "第" + position + "个视频", MyVideoPlayer.STATE_NORMAL);
             if (position == 0) {
                 holder.mp_video.startVideo();
             }

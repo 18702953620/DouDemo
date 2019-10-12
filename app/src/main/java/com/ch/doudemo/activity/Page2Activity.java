@@ -20,8 +20,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.jzvd.JZVideoPlayer;
-import cn.jzvd.JZVideoPlayerStandard;
 
 /**
  * 翻页2
@@ -34,6 +32,7 @@ public class Page2Activity extends AppCompatActivity {
     private ListVideoAdapter videoAdapter;
     private PagerSnapHelper snapHelper;
     private LinearLayoutManager layoutManager;
+    private int currentPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,12 +82,18 @@ public class Page2Activity extends AppCompatActivity {
                 switch (newState) {
                     case RecyclerView.SCROLL_STATE_IDLE://停止滚动
                         View view = snapHelper.findSnapView(layoutManager);
-                        JZVideoPlayer.releaseAllVideos();
-                        RecyclerView.ViewHolder viewHolder = recyclerView.getChildViewHolder(view);
-                        if (viewHolder != null && viewHolder instanceof VideoViewHolder) {
-                            ((VideoViewHolder) viewHolder).mp_video.startVideo();
-                        }
 
+                        //当前固定后的item position
+                        int position = recyclerView.getChildAdapterPosition(view);
+                        if (currentPosition != position) {
+                            //如果当前position 和 上一次固定后的position 相同, 说明是同一个, 只不过滑动了一点点, 然后又释放了
+                            MyVideoPlayer.releaseAllVideos();
+                            RecyclerView.ViewHolder viewHolder = recyclerView.getChildViewHolder(view);
+                            if (viewHolder != null && viewHolder instanceof VideoViewHolder) {
+                                ((VideoViewHolder) viewHolder).mp_video.startVideo();
+                            }
+                        }
+                        currentPosition = position;
                         break;
                     case RecyclerView.SCROLL_STATE_DRAGGING://拖动
                         break;
@@ -104,7 +109,7 @@ public class Page2Activity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
-        JZVideoPlayer.releaseAllVideos();
+        MyVideoPlayer.releaseAllVideos();
     }
 
 
@@ -120,7 +125,7 @@ public class Page2Activity extends AppCompatActivity {
             ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
             layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
 
-            holder.mp_video.setUp(bean, JZVideoPlayerStandard.CURRENT_STATE_NORMAL);
+            holder.mp_video.setUp(bean, "第" + position + "个视频", MyVideoPlayer.STATE_NORMAL);
             if (position == 0) {
                 holder.mp_video.startVideo();
             }

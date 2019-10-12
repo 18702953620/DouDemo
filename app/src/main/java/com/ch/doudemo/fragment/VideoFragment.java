@@ -4,13 +4,12 @@ import android.app.Activity;
 import android.graphics.Point;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.ViewDragHelper;
-import android.widget.ImageView;
+import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.ch.doudemo.R;
-import com.tencent.rtmp.TXVodPlayer;
-import com.tencent.rtmp.ui.TXCloudVideoView;
+import com.ch.doudemo.widget.MyVideoPlayer;
 
 import java.lang.reflect.Field;
 
@@ -26,14 +25,11 @@ import butterknife.BindView;
 
 public class VideoFragment extends BaseFragment {
     @BindView(R.id.txv_video)
-    TXCloudVideoView txvVideo;
+    MyVideoPlayer txvVideo;
     @BindView(R.id.rl_back_right)
     RelativeLayout rlBackRight;
     @BindView(R.id.dl_back_play)
     DrawerLayout dlBackPlay;
-    @BindView(R.id.iv_play_thun)
-    ImageView ivPlayThun;
-    private TXVodPlayer mVodPlayer;
     private String url;
     public static final String URL = "URL";
 
@@ -46,66 +42,30 @@ public class VideoFragment extends BaseFragment {
     protected void initView() {
 
         url = getArguments().getString(URL);
-        //创建player对象
-        mVodPlayer = new TXVodPlayer(context);
-//关键player对象与界面view
-        mVodPlayer.setPlayerView(txvVideo);
-//        url = "http://v.cctv.com/flash/mp4video6/TMS/2011/01/05/cf752b1c12ce452b3040cab2f90bc265_h264818000nero_aac32-1.mp4";
-        mVodPlayer.setLoop(true);
-
         Glide.with(context)
                 .load(url)
-                .into(ivPlayThun);
-//        dlBackPlay.addDrawerListener(new DrawerLayout.DrawerListener() {
-//            @Override
-//            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
-//
-//            }
-//
-//            @Override
-//            public void onDrawerOpened(@NonNull View drawerView) {
-//                if (mVodPlayer != null) {
-//                    mVodPlayer.pause();
-//                }
-//            }
-//
-//            @Override
-//            public void onDrawerClosed(@NonNull View drawerView) {
-//                if (mVodPlayer != null) {
-//                    mVodPlayer.resume();
-//                }
-//            }
-//
-//            @Override
-//            public void onDrawerStateChanged(int newState) {
-//
-//            }
-//        });
-//
-//
-//        //设置菜单内容之外其他区域的背景色
-//        dlBackPlay.setScrimColor(Color.TRANSPARENT);
-//        //设置 全屏滑动
-//        setDrawerRightEdgeSize(getActivity(), dlBackPlay, 1);
+                .into(txvVideo.thumbImageView);
+        txvVideo.rl_touch_help.setVisibility(View.GONE);
+        txvVideo.setUp(url, url);
 
     }
 
     @Override
     protected void loadData() {
-        mVodPlayer.startPlay(url);
+        txvVideo.startVideo();
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
 
-        if (mVodPlayer == null) {
+        if (txvVideo == null) {
             return;
         }
         if (isVisibleToUser) {
-            mVodPlayer.resume();
+            txvVideo.goOnPlayOnResume();
         } else {
-            mVodPlayer.pause();
+            txvVideo.goOnPlayOnPause();
         }
 
     }
@@ -114,8 +74,8 @@ public class VideoFragment extends BaseFragment {
     public void onResume() {
 
         super.onResume();
-        if (mVodPlayer != null) {
-            mVodPlayer.resume();
+        if (txvVideo != null) {
+            txvVideo.goOnPlayOnResume();
         }
 
     }
@@ -123,20 +83,16 @@ public class VideoFragment extends BaseFragment {
     @Override
     public void onPause() {
         super.onPause();
-        if (mVodPlayer != null) {
-            mVodPlayer.pause();
+        if (txvVideo != null) {
+            txvVideo.goOnPlayOnPause();
         }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mVodPlayer != null) {
-            // true代表清除最后一帧画面
-            mVodPlayer.stopPlay(true);
-        }
         if (txvVideo != null) {
-            txvVideo.onDestroy();
+            txvVideo.releaseAllVideos();
         }
     }
 

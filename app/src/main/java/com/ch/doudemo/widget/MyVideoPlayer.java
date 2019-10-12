@@ -1,10 +1,8 @@
 package com.ch.doudemo.widget;
 
 import android.content.Context;
-import android.media.AudioManager;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -13,10 +11,8 @@ import com.ch.doudemo.R;
 import com.ch.doudemo.base.MyApp;
 import com.danikula.videocache.HttpProxyCacheServer;
 
-import cn.jzvd.JZMediaManager;
-import cn.jzvd.JZUtils;
-import cn.jzvd.JZVideoPlayer;
-import cn.jzvd.JZVideoPlayerStandard;
+import cn.jzvd.JzvdStd;
+
 
 /**
  * 作者： ch
@@ -26,8 +22,8 @@ import cn.jzvd.JZVideoPlayerStandard;
  */
 
 
-public class MyVideoPlayer extends JZVideoPlayerStandard {
-    private RelativeLayout rl_touch_help;
+public class MyVideoPlayer extends JzvdStd {
+    public RelativeLayout rl_touch_help;
     private ImageView iv_start;
     private LinearLayout ll_start;
 
@@ -49,28 +45,29 @@ public class MyVideoPlayer extends JZVideoPlayerStandard {
 
         thumbImageView.setVisibility(View.GONE);
 
-        if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
+        if (screen == SCREEN_FULLSCREEN) {
             onStateAutoComplete();
-            setUp((String) getCurrentUrl(), JZVideoPlayer.SCREEN_WINDOW_FULLSCREEN);
+            setUp((String) jzDataSource.getCurrentUrl(), jzDataSource.title, SCREEN_FULLSCREEN);
         } else {
             super.onAutoCompletion();
-            setUp((String) getCurrentUrl(), JZVideoPlayer.CURRENT_STATE_NORMAL);
+            setUp((String) jzDataSource.getCurrentUrl(), jzDataSource.title, SCREEN_NORMAL);
         }
         //循环播放
-
         startVideo();
     }
 
-    @Override
-    public void setUp(String url, int screen, Object... objects) {
 
+    @Override
+    public void setUp(String url, String title, int screen) {
+        super.setUp(url, title, screen);
         if (url.startsWith("http")) {
             HttpProxyCacheServer proxy = MyApp.getProxy(context);
             String proxyUrl = proxy.getProxyUrl(url);
-            super.setUp(proxyUrl, screen, objects);
+            super.setUp(proxyUrl, title, screen);
         } else {
-            super.setUp(url, screen, objects);
+            super.setUp(url, title, screen);
         }
+
     }
 
     @Override
@@ -82,7 +79,7 @@ public class MyVideoPlayer extends JZVideoPlayerStandard {
         iv_start = findViewById(R.id.iv_start);
         resetPlayView();
 
-        rl_touch_help.setOnClickListener(new OnClickListener() {
+        rl_touch_help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 resetPlayView();
@@ -93,14 +90,14 @@ public class MyVideoPlayer extends JZVideoPlayerStandard {
             }
         });
 
-        ll_start.setOnClickListener(new OnClickListener() {
+        ll_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isPlay()) {
                     goOnPlayOnPause();
                 } else {
                     //暂停
-                    if (currentState == JZVideoPlayer.CURRENT_STATE_PAUSE) {
+                    if (state == STATE_PAUSE) {
                         goOnPlayOnResume();
                     } else {
                         startVideo();
@@ -113,16 +110,8 @@ public class MyVideoPlayer extends JZVideoPlayerStandard {
 
     @Override
     public void startVideo() {
-        if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
-            initTextureView();
-            addTextureView();
-            AudioManager mAudioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
-            mAudioManager.requestAudioFocus(onAudioFocusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
-            JZUtils.scanForActivity(getContext()).getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
-            JZMediaManager.setDataSource(dataSourceObjects);
-            JZMediaManager.setCurrentDataSource(JZUtils.getCurrentFromDataSource(dataSourceObjects, currentUrlMapIndex));
-            JZMediaManager.instance().positionInList = positionInList;
+        if (screen == SCREEN_FULLSCREEN) {
+            startFullscreenDirectly(context, MyVideoPlayer.class, jzDataSource);
             onStatePreparing();
             ll_start.setVisibility(VISIBLE);
         } else {
@@ -132,9 +121,6 @@ public class MyVideoPlayer extends JZVideoPlayerStandard {
         resetPlayView();
     }
 
-    @Override
-    public void startWindowTiny() {
-    }
 
     private void resetPlayView() {
         if (isPlay()) {
@@ -150,7 +136,7 @@ public class MyVideoPlayer extends JZVideoPlayerStandard {
      * @return
      */
     private boolean isPlay() {
-        if (currentState == CURRENT_STATE_PREPARING || currentState == CURRENT_STATE_PLAYING || currentState == -1) {
+        if (state == STATE_PREPARING || state == STATE_PLAYING || state == -1) {
             return true;
         }
 

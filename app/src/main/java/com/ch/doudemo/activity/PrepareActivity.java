@@ -9,7 +9,6 @@ import com.ch.doudemo.widget.MyVideoPlayer;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.jzvd.JZVideoPlayerStandard;
 
 /**
  * 视频预览
@@ -32,7 +31,7 @@ public class PrepareActivity extends AppCompatActivity {
     private void initView() {
         String path = getIntent().getStringExtra(VIDEO_PATH);
         if (!TextUtils.isEmpty(path)) {
-            mpVideo.setUp(path, JZVideoPlayerStandard.CURRENT_STATE_NORMAL);
+            mpVideo.setUp(path, path, MyVideoPlayer.STATE_NORMAL);
             mpVideo.startVideo();
         }
     }
